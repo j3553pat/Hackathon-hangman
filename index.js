@@ -1,43 +1,37 @@
 // "use strict";
 
-const assert = require("assert");
 const readline = require("readline");
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
-
-
-console.log("hello world")
-let finalWord = [["hello"],
-["robot"],
-["jazz"],
-["whisper"],
-["price"],
-["past"]]
+let finalWord = ["hello",
+"robot",
+"jazz",
+"whisper",
+"price",
+"past"]
 
 let chancesLeft = 6
 let guessWord = [];
-
 let item = finalWord[Math.floor(Math.random()*finalWord.length)];
 
 const gameBoard = () => {
-    if (guessWord.length ===0) {
+    if (guessWord.length === 0) {
     for (let i = 0; i < item.length; i++) {
         guessWord.push("_")
     } }
     console.log(guessWord.join(""))
 }
 
-const userInput = (x) => {
-
+const userInput = (letter) => {
     for(let i = 0; i < item.length; i++) {
-        if(x === item[i]) {
-            guessWord[i] = x
+        if(letter === item[i]) {
+            guessWord[i] = letter
         }
      } 
-        if(item.includes(x) == false) {
+        if(!item.includes(letter)) {
             console.log("sorry, try again")
             chancesLeft--
             console.log(`lives: ${chancesLeft}`)
@@ -47,26 +41,26 @@ const userInput = (x) => {
 
 const checkForWIn = () => {
     if (!guessWord.includes("_")) {
-        console.log("you won Hangman!")
+        console.log("you win!")
     } else if (chancesLeft===0){
-        console.log("You lose :(. Crtl + C and enter 'node index.js' to try again.")
+        console.log(`You lose :(. Your word was ${item}`)
     }
 }
 
-const startGame = (x) => {
-    userInput(x)
+const startGame = (letter) => {
+    userInput(letter)
     checkForWIn()
 }
 gameBoard()
 
 
 
-const getPrompt = () => {
-	rl.question('type a letter guess: ', (x) => {
-		startGame(x);
-		getPrompt();
-	}); 
-};
+function getPrompt() {
+    rl.question('type a letter guess: ', (letter) => {
+        startGame(letter);
+        getPrompt();
+    });
+}
 if (typeof describe === 'function') {
 	describe('startGame()', () => {
 	    it('should be of type function', () => {
